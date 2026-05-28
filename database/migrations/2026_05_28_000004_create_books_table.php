@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('cover_image')->nullable();
             $table->string('title');
-            $table->unsignedBigInteger('id_author');
-            $table->unsignedBigInteger('id_publisher');
-            $table->string('publish_year');
+            $table->unsignedBigInteger('author_id');
+            $table->unsignedBigInteger('publisher_id');
+            $table->year('publish_year');
             $table->string('language');
             $table->string('location');
-            $table->unsignedBigInteger('id_category');
+            $table->unsignedBigInteger('category_id');
             $table->string('call_number');
             $table->string('isbn');
             $table->string('pages');
@@ -28,9 +28,9 @@ return new class extends Migration
             $table->string('edition')->nullable();
             $table->string('stock');
 
-            $table->foreign('id_author')->references('id')->on('authors')->onDelete('cascade');
-            $table->foreign('id_publisher')->references('id')->on('publishers')->onDelete('cascade');
-            $table->foreign('id_category')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('author_id')->references('id')->on('authors')->onDelete('cascade');
+            $table->foreign('publisher_id')->references('id')->on('publishers')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
         });
     }
