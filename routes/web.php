@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\BookController as AdminBookController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\User\BookController as UserBookController;
 
 Route::get('/', function () {
@@ -21,10 +22,12 @@ Route::get('/admin/books/{book}/edit', [AdminBookController::class, 'edit'])->na
 Route::put('/admin/books/{book}', [AdminBookController::class, 'update'])->name('admin.books.update');
 Route::delete('/admin/books/{book}', [AdminBookController::class, 'destroy'])->name('admin.books.destroy');
 
-// Route for tale Category Book
-Route::get('/category', function(){
-    return view('admin.pages._category');
-})->name('admin.category');
+// Route untuk table Category Book (Menggunakan nama akhir .categories.*)
+Route::get('/admin/category', [AdminCategoryController::class, 'index'])->name('admin.categories.index');
+Route::post('/admin/category', [AdminCategoryController::class, 'store'])->name('admin.category.store');
+Route::put('/admin/category/{category}', [AdminCategoryController::class, 'update'])->name('admin.category.update');
+Route::delete('/admin/category/{category}', [AdminCategoryController::class, 'destroy'])->name('admin.category.destroy');
+
 
 //Route for user/frontend
 Route::get('/books', [UserBookController::class, 'index']);

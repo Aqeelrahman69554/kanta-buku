@@ -15,7 +15,7 @@
             <span class="nav-text">Dashboard</span>
         </a>
 
-        <a class="nav-link" href="{{ route('admin.category') }}">
+        <a class="nav-link" href="{{ route('admin.categories.index') }}">
             <span class="nav-icon"><i class="bi bi-journals me-2" aria-hidden="true"></i></span>
             <span class="nav-text">Daftar Kategori</span>
         </a>

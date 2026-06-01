@@ -1,387 +1,176 @@
 @extends('admin.layouts.master')
 
-@section('content')
-<main class="dashboard-content">
-    <div class="container-fluid px-3 px-lg-4 py-4">
-
-        <!-- Heading -->
-        <div class="page-heading d-flex justify-content-between align-items-center mb-4">
-            <div class="page-heading-copy">
-                <span class="page-icon">
-                    <i class="bi bi-bookmark-fill"></i>
-                </span>
-                <div>
-                    <p class="eyebrow mb-1">Master Data</p>
-                    <h1 class="h3 mb-1">Kategori Buku</h1>
-                    <p class="text-muted mb-0">
-                        Kelola seluruh kategori buku perpustakaan.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Button Add -->
-            <button
-                class="btn btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#createCategoryModal">
-                <i class="bi bi-plus-circle"></i>
-                Tambah Kategori
+@section('content') {{-- Perbaikan: Menggunakan @section --}}
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Manajemen Kategori Buku</h2>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCategoryModal">
+                + Tambah Kategori
             </button>
         </div>
 
-        <!-- Table Card -->
-        <section class="panel">
-            <div class="panel-header d-flex justify-content-between align-items-center">
-
-                <div>
-                    <h2 class="h5 mb-1 section-title">
-                        <i class="bi bi-table"></i>
-                        <span>Daftar Kategori</span>
-                    </h2>
-                    <p class="text-muted mb-0">
-                        Data kategori buku yang tersedia.
-                    </p>
-                </div>
-
-                <input
-                    class="form-control form-control-sm table-search"
-                    type="search"
-                    placeholder="Cari kategori..."
-                    data-table-search="categoryTable">
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
+        @endif
 
-            <div class="table-responsive">
-                <table
-                    class="table align-middle mb-0"
-                    id="categoryTable">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-                    <thead>
-                        <tr>
-                            <th width="80">#</th>
-                            <th>Nama Kategori</th>
-                            <th>Slug</th>
-                            <th>Dibuat</th>
-                            <th class="text-end">Aksi</th>
-                        </tr>
-                    </thead>
+        <table class="table table-bordered table-striped align-middle">
+            <thead class="text-center">
+                <tr>
+                    <th style="width: 5%">No</th>
+                    <th>Nama Kategori</th>
+                    <th>Slug</th>
+                    <th style="width: 20%">Aksi</th> {{-- Judul kolom aksi ikut ke tengah --}}
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($categories as $category)
+                    <tr>
+                        <div class="text-center">
+                            <td>{{ ($categories->currentPage() - 1) * $categories->perPage() + $loop->iteration }}</td>
+                        </div>
+                        <td>{{ $category->name }}</td>
+                        <td>{{ $category->slug }}</td>
 
-                    <tbody>
+                        <td class="text-center"> {{-- 4. Tombol edit dan hapus di dalam td ini akan berjejer rapi di tengah --}}
+                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#editModal{{ $category->id }}">
+                                Edit
+                            </button>
+                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#deleteModal{{ $category->id }}">
+                                Hapus
+                            </button>
+                        </td>
+                    </tr>
 
-                        {{-- Loop Laravel --}}
-                        @foreach($categories as $category)
-                        <tr>
-
-                            <td>{{ $loop->iteration }}</td>
-
-                            <td>
-                                <strong>{{ $category->name }}</strong>
-                            </td>
-
-                            <td>
-                                <span class="badge bg-light text-dark">
-                                    {{ $category->slug }}
-                                </span>
-                            </td>
-
-                            <td>
-                                {{ $category->created_at->format('d M Y') }}
-                            </td>
-
-                            <td class="text-end">
-
-                                <!-- View -->
-                                <button
-                                    class="btn btn-sm btn-info text-white"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#viewCategory{{ $category->id }}">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-
-                                <!-- Edit -->
-                                <button
-                                    class="btn btn-sm btn-warning"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#editCategory{{ $category->id }}">
-                                    <i class="bi bi-pencil-square"></i>
-                                </button>
-
-                                <!-- Delete -->
-                                <button
-                                    class="btn btn-sm btn-danger"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#deleteCategory{{ $category->id }}">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-
-                            </td>
-                        </tr>
-
-                        <!-- ========================= -->
-                        <!-- VIEW MODAL -->
-                        <!-- ========================= -->
-                        <div class="modal fade"
-                            id="viewCategory{{ $category->id }}"
-                            tabindex="-1">
-
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-
+                    <div class="modal fade" id="editModal{{ $category->id }}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog"> {{-- Perbaikan: Ditambahkan div modal-dialog agar tidak merusak layout --}}
+                            <div class="modal-content">
+                                <form action="{{ route('admin.category.update', $category->id) }}" method="POST">
+                                    {{-- Perbaikan: Menggunakan route tunggal .category.update --}}
+                                    @csrf
+                                    @method('PUT')
                                     <div class="modal-header">
-                                        <h5 class="modal-title">
-                                            Detail Kategori
-                                        </h5>
-
-                                        <button
-                                            class="btn-close"
-                                            data-bs-dismiss="modal">
-                                        </button>
+                                        <h5 class="modal-title">Edit Kategori</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
-
                                     <div class="modal-body">
-
                                         <div class="mb-3">
-                                            <label class="fw-bold">
-                                                Nama
-                                            </label>
-
-                                            <p>{{ $category->name }}</p>
+                                            <label class="form-label">Nama Kategori</label>
+                                            <input type="text" name="name" class="form-control"
+                                                value="{{ $category->name }}" required>
                                         </div>
-
                                         <div class="mb-3">
-                                            <label class="fw-bold">
-                                                Slug
-                                            </label>
-
-                                            <p>{{ $category->slug }}</p>
-                                        </div>
-
-                                        <div>
-                                            <label class="fw-bold">
-                                                Dibuat
-                                            </label>
-
-                                            <p>
-                                                {{ $category->created_at->format('d M Y H:i') }}
-                                            </p>
+                                            <label class="form-label">Slug</label>
+                                            <input type="text" name="slug" class="form-control"
+                                                value="{{ $category->slug }}" required>
                                         </div>
 
                                     </div>
-
-                                </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Batal</button>
+                                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-
-                        <!-- ========================= -->
-                        <!-- EDIT MODAL -->
-                        <!-- ========================= -->
-                        <div class="modal fade"
-                            id="editCategory{{ $category->id }}"
-                            tabindex="-1">
-
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-
-                                    <form
-                                        action="{{ route('categories.update',$category->id) }}"
-                                        method="POST">
-
-                                        @csrf
-                                        @method('PUT')
-
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">
-                                                Edit Kategori
-                                            </h5>
-
-                                            <button
-                                                class="btn-close"
-                                                data-bs-dismiss="modal">
-                                            </button>
-                                        </div>
-
-                                        <div class="modal-body">
-
-                                            <div class="mb-3">
-                                                <label>Nama Kategori</label>
-
-                                                <input
-                                                    type="text"
-                                                    name="name"
-                                                    class="form-control"
-                                                    value="{{ $category->name }}"
-                                                    required>
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label>Slug</label>
-
-                                                <input
-                                                    type="text"
-                                                    name="slug"
-                                                    class="form-control"
-                                                    value="{{ $category->slug }}"
-                                                    required>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button
-                                                type="button"
-                                                class="btn btn-secondary"
-                                                data-bs-dismiss="modal">
-                                                Batal
-                                            </button>
-
-                                            <button
-                                                type="submit"
-                                                class="btn btn-warning">
-                                                Update
-                                            </button>
-                                        </div>
-
-                                    </form>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- ========================= -->
-                        <!-- DELETE MODAL -->
-                        <!-- ========================= -->
-                        <div class="modal fade"
-                            id="deleteCategory{{ $category->id }}"
-                            tabindex="-1">
-
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-
-                                    <form
-                                        action="{{ route('categories.destroy',$category->id) }}"
-                                        method="POST">
-
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">
-                                                Hapus Kategori
-                                            </h5>
-                                        </div>
-
-                                        <div class="modal-body">
-
-                                            Yakin ingin menghapus kategori
-
-                                            <strong>
-                                                {{ $category->name }}
-                                            </strong> ?
-
-                                        </div>
-
-                                        <div class="modal-footer">
-
-                                            <button
-                                                type="button"
-                                                class="btn btn-secondary"
-                                                data-bs-dismiss="modal">
-                                                Batal
-                                            </button>
-
-                                            <button
-                                                type="submit"
-                                                class="btn btn-danger">
-                                                Hapus
-                                            </button>
-
-                                        </div>
-
-                                    </form>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        @endforeach
-
-                    </tbody>
-                </table>
-            </div>
-        </section>
-    </div>
-</main>
-
-<!-- ========================= -->
-<!-- CREATE MODAL -->
-<!-- ========================= -->
-<div class="modal fade"
-    id="createCategoryModal"
-    tabindex="-1">
-
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <form
-                action="{{ route('categories.store') }}"
-                method="POST">
-
-                @csrf
-
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        Tambah Kategori
-                    </h5>
-
-                    <button
-                        class="btn-close"
-                        data-bs-dismiss="modal">
-                    </button>
-                </div>
-
-                <div class="modal-body">
-
-                    <div class="mb-3">
-                        <label>Nama Kategori</label>
-
-                        <input
-                            type="text"
-                            name="name"
-                            class="form-control"
-                            required>
                     </div>
 
-                    <div class="mb-3">
-                        <label>Slug</label>
-
-                        <input
-                            type="text"
-                            name="slug"
-                            class="form-control"
-                            required>
+                    <div class="modal fade" id="deleteModal{{ $category->id }}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form action="{{ route('admin.category.destroy', $category->id) }}" method="POST">
+                                    {{-- Perbaikan: Menggunakan route tunggal .category.destroy --}}
+                                    @csrf
+                                    @method('DELETE')
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Konfirmasi Hapus</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Apakah Anda yakin ingin menghapus kategori <strong>{{ $category->name }}</strong>?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Batal</button>
+                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-
-                </div>
-
-                <div class="modal-footer">
-
-                    <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal">
-                        Batal
-                    </button>
-
-                    <button
-                        type="submit"
-                        class="btn btn-primary">
-                        Simpan
-                    </button>
-
-                </div>
-
-            </form>
-
+                @endforeach
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-end mt-3">
+            {{ $categories->links() }}
         </div>
     </div>
-</div>
-@endsection
+
+    <div class="modal fade" id="createCategoryModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ route('admin.category.store') }}" method="POST"> {{-- Perbaikan: Menggunakan route tunggal .category.store --}}
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title">Tambah Kategori Baru</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Nama Kategori</label>
+                            <input type="text" name="name" class="form-control" placeholder="Contoh: Pemrograman"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Slug</label>
+                            <input type="text" name="slug" class="form-control" placeholder="contoh-pemrograman"
+                                required>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection {{-- Perbaikan: Menggunakan @endsection --}}
+<script>
+    // Tunggu sampai seluruh dokumen selesai dimuat
+    document.addEventListener('DOMContentLoaded', function() {
+        // Ambil elemen alert berdasarkan ID yang sudah kita buat tadi
+        const successAlert = document.getElementById('success-alert');
+
+        if (successAlert) {
+            // Set waktu tunggu: 3000 milidetik = 3 detik
+            setTimeout(function() {
+                // Menggunakan class bawaan Bootstrap untuk transisi fade out (menghilang halus)
+                successAlert.classList.remove('show');
+
+                // Hapus elemen sepenuhnya dari layar setelah efek fade out selesai (opsional)
+                setTimeout(function() {
+                    successAlert.remove();
+                }, 150); // 150ms adalah durasi standar animasi fade Bootstrap
+
+            }, 4500);
+        }
+    });
+</script>
