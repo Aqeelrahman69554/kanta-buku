@@ -16,7 +16,7 @@ class BooksSeeder extends Seeder
             [
                 'cover_image' => 'the-great-gatsby.jpg',
                 'title' => 'The Great Gatsby',
-                'author_id' => 8,
+                'author' => 'J.K. Rowling',
                 'publisher_id' => 1,
                 'publish_year' => 1925,
                 'language' => 'English',
@@ -32,7 +32,7 @@ class BooksSeeder extends Seeder
             [
                 'cover_image' => 'pride-and-prejudice.jpg',
                 'title' => 'Pride and Prejudice',
-                'author_id' => 5,
+                'author' => 'Haruki Murakami',
                 'publisher_id' => 2,
                 'publish_year' => 1950,
                 'language' => 'English',
@@ -48,7 +48,7 @@ class BooksSeeder extends Seeder
             [
                 'cover_image' => 'sapiens.jpg',
                 'title' => 'Sapiens: A Brief History of Humankind',
-                'author_id' => 7,
+                'author' => 'George Orwell',
                 'publisher_id' => 3,
                 'publish_year' => 2011,
                 'language' => 'English',
@@ -64,7 +64,7 @@ class BooksSeeder extends Seeder
             [
                 'cover_image' => 'atomic-habits.jpg',
                 'title' => 'Atomic Habits',
-                'author_id' => 6,
+                'author' => 'Agatha Christie',
                 'publisher_id' => 4,
                 'publish_year' => 2018,
                 'language' => 'English',
@@ -80,7 +80,7 @@ class BooksSeeder extends Seeder
             [
                 'cover_image' => 'dune.jpg',
                 'title' => 'Dune',
-                'author_id' => 2,
+                'author' => 'Agatha Christie',
                 'publisher_id' => 5,
                 'publish_year' => 1965,
                 'language' => 'English',
@@ -96,7 +96,7 @@ class BooksSeeder extends Seeder
             [
                 'cover_image' => 'foundation.jpg',
                 'title' => 'Foundation',
-                'author_id' => 9,
+                'author' => 'Stephen King',
                 'publisher_id' => 1,
                 'publish_year' => 1951,
                 'language' => 'English',
@@ -112,7 +112,7 @@ class BooksSeeder extends Seeder
             [
                 'cover_image' => 'harry-potter-sorcerers-stone.jpg',
                 'title' => 'Harry Potter and the Sorcerer\'s Stone',
-                'author_id' => 1,
+                'author' => 'James Clear',
                 'publisher_id' => 6,
                 'publish_year' => 1997,
                 'language' => 'English',
@@ -128,7 +128,7 @@ class BooksSeeder extends Seeder
             [
                 'cover_image' => 'game-of-thrones.jpg',
                 'title' => 'A Game of Thrones',
-                'author_id' => 2,
+                'author' => 'Mark Manson',
                 'publisher_id' => 7,
                 'publish_year' => 1996,
                 'language' => 'English',
@@ -144,7 +144,7 @@ class BooksSeeder extends Seeder
             [
                 'cover_image' => 'murder-on-orient-express.jpg',
                 'title' => 'Murder on the Orient Express',
-                'author_id' => 3,
+                'author' => 'Rick Riordan',
                 'publisher_id' => 2,
                 'publish_year' => 1934,
                 'language' => 'English',
@@ -160,7 +160,7 @@ class BooksSeeder extends Seeder
             [
                 'cover_image' => 'and-then-there-were-none.jpg',
                 'title' => 'And Then There Were None',
-                'author_id' => 3,
+                'author' => 'Dan Brown',
                 'publisher_id' => 3,
                 'publish_year' => 1939,
                 'language' => 'English',
@@ -176,7 +176,7 @@ class BooksSeeder extends Seeder
             [
                 'cover_image' => 'steve-jobs.jpg',
                 'title' => 'Steve Jobs',
-                'author_id' => 10,
+                'author' => 'Mitch Albom',
                 'publisher_id' => 4,
                 'publish_year' => 2011,
                 'language' => 'English',
@@ -192,7 +192,7 @@ class BooksSeeder extends Seeder
             [
                 'cover_image' => 'becoming.jpg',
                 'title' => 'Becoming',
-                'author_id' => 10,
+                'author' => 'Isaac Asimov',
                 'publisher_id' => 5,
                 'publish_year' => 2018,
                 'language' => 'English',
@@ -208,7 +208,7 @@ class BooksSeeder extends Seeder
             [
                 'cover_image' => 'guns-germs-steel.jpg',
                 'title' => 'Guns, Germs, and Steel',
-                'author_id' => 7,
+                'author' => 'Neil Gaiman',
                 'publisher_id' => 1,
                 'publish_year' => 1997,
                 'language' => 'English',
@@ -224,7 +224,7 @@ class BooksSeeder extends Seeder
             [
                 'cover_image' => 'a-brief-history-of-time.jpg',
                 'title' => 'A Brief History of Time',
-                'author_id' => 9,
+                'author' => 'Gillian Flynn',
                 'publisher_id' => 2,
                 'publish_year' => 1988,
                 'language' => 'English',
@@ -240,7 +240,7 @@ class BooksSeeder extends Seeder
             [
                 'cover_image' => 'charlottes-web.jpg',
                 'title' => 'Charlotte\'s Web',
-                'author_id' => 6,
+                'author' => 'Khaled Hosseini',
                 'publisher_id' => 6,
                 'publish_year' => 1952,
                 'language' => 'English',
@@ -256,7 +256,7 @@ class BooksSeeder extends Seeder
             [
                 'cover_image' => 'the-little-prince.jpg',
                 'title' => 'The Little Prince',
-                'author_id' => 5,
+                'author' => 'John Green',
                 'publisher_id' => 7,
                 'publish_year' => 1943,
                 'language' => 'English',
@@ -272,7 +272,7 @@ class BooksSeeder extends Seeder
             [
                 'cover_image' => 'norwegian-wood.jpg',
                 'title' => 'Norwegian Wood',
-                'author_id' => 9,
+                'author' => 'George Martin',
                 'publisher_id' => 1,
                 'publish_year' => 1987,
                 'language' => 'English',
@@ -288,7 +288,7 @@ class BooksSeeder extends Seeder
             [
                 'cover_image' => 'it.jpg',
                 'title' => 'It',
-                'author_id' => 4,
+                'author' => 'Fyodor Dostoevsky',
                 'publisher_id' => 2,
                 'publish_year' => 1986,
                 'language' => 'English',
@@ -304,7 +304,7 @@ class BooksSeeder extends Seeder
             [
                 'cover_image' => 'the-old-man-and-the-sea.jpg',
                 'title' => 'The Old Man and the Sea',
-                'author_id' => 7,
+                'author' => 'Franz Kafka',
                 'publisher_id' => 3,
                 'publish_year' => 1952,
                 'language' => 'English',
@@ -320,7 +320,7 @@ class BooksSeeder extends Seeder
             [
                 'cover_image' => 'house-of-the-spirits.jpg',
                 'title' => 'The House of the Spirits',
-                'author_id' => 10,
+                'author' => 'Ryan Holiday',
                 'publisher_id' => 4,
                 'publish_year' => 1982,
                 'language' => 'English',

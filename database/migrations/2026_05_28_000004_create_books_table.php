@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('cover_image')->nullable();
             $table->string('title');
-            $table->unsignedBigInteger('author_id');
+            $table->string('author');
             $table->unsignedBigInteger('publisher_id');
             $table->year('publish_year');
             $table->string('language');
@@ -28,7 +28,6 @@ return new class extends Migration
             $table->string('edition')->nullable();
             $table->string('stock');
 
-            $table->foreign('author_id')->references('id')->on('authors')->onDelete('cascade');
             $table->foreign('publisher_id')->references('id')->on('publishers')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();

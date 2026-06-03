@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Author;
 use App\Models\Book;
 use App\Models\Category;
 use App\Models\Publisher;
@@ -16,11 +15,11 @@ class BookController extends Controller
      */
     public function index(Request $request)
     {
-        $authors = Author::orderBy('name')->get();
+
         $categories = Category::orderBy('name')->get();
         $publishers = Publisher::orderBy('name')->get();
 
-        $books = Book::with(['author', 'publisher', 'category'])
+        $books = Book::with(['publisher', 'category'])
             ->when($request->filled('category'), function ($query) use ($request) {
                 $query->where('category_id', $request->category);
             })
@@ -31,9 +30,7 @@ class BookController extends Controller
                     $query->where('title', 'like', "%{$search}%")
                         ->orWhere('isbn', 'like', "%{$search}%")
                         ->orWhere('call_number', 'like', "%{$search}%")
-                        ->orWhereHas('author', function ($author) use ($search) {
-                            $author->where('name', 'like', "%{$search}%");
-                        })
+                        ->orWhere('author','like',"%{$search}%")
                         ->orWhereHas('publisher', function ($publisher) use ($search) {
                             $publisher->where('name', 'like', "%{$search}%");
                         })
@@ -45,7 +42,7 @@ class BookController extends Controller
             ->latest()
             ->paginate(10);
 
-        return view('admin.pages._book', compact('authors', 'books', 'categories', 'publishers'));
+        return view('admin.pages._book', compact('books', 'categories', 'publishers'));
     }
 
     /**
@@ -119,7 +116,7 @@ class BookController extends Controller
         return $request->validate([
             'cover_image' => ['nullable', 'string', 'max:255'],
             'title' => ['required', 'string', 'max:255'],
-            'author_id' => ['required', 'exists:authors,id'],
+            'author' => ['required', 'string','max:255'],
             'publisher_id' => ['required', 'exists:publishers,id'],
             'publish_year' => ['required', 'integer', 'digits:4'],
             'language' => ['required', 'string', 'max:255'],

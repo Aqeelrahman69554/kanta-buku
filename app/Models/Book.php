@@ -12,7 +12,7 @@ class Book extends Model
     protected $fillable = [
         'cover_image',
         'title',
-        'author_id',
+        'author',
         'publisher_id',
         'publish_year',
         'language',
@@ -26,10 +26,7 @@ class Book extends Model
         'stock',
     ];
 
-    public function author():BelongsTo
-    {
-        return $this->belongsTo(Author::class, 'author_id');
-    }
+
     public function publisher():BelongsTo
     {
         return $this->belongsTo(Publisher::class, 'publisher_id');
