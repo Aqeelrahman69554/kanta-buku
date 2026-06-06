@@ -12,4 +12,9 @@ class Publisher extends Model
         'name',
         'city',
     ];
+
+    public function books()
+    {
+        return $this->hasMany(Book::class);
+    }
 }

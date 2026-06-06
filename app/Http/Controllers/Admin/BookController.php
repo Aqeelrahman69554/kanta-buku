@@ -61,7 +61,7 @@ class BookController extends Controller
         Book::create($this->validatedBook($request));
 
         return redirect()
-            ->route('daftarbuku')
+            ->route('admin.daftarbuku')
             ->with('success', 'Buku berhasil ditambahkan.');
     }
 
@@ -94,7 +94,7 @@ class BookController extends Controller
         $book->update($this->validatedBook($request));
 
         return redirect()
-            ->route('daftarbuku')
+            ->route('admin.daftarbuku')
             ->with('success', 'Buku berhasil diperbarui.');
     }
 
@@ -107,7 +107,7 @@ class BookController extends Controller
         $book->delete();
 
         return redirect()
-            ->route('daftarbuku')
+            ->route('admin.daftarbuku')
             ->with('success', 'Buku berhasil dihapus.');
     }
 

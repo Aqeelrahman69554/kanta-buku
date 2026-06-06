@@ -65,7 +65,7 @@
                         </h2>
                         <p class="text-muted small mb-0">Gunakan filter kategori atau pencarian untuk menyeleksi buku.</p>
                     </div>
-                    <form class="d-flex gap-2 w-100 w-md-auto" action="{{ route('daftarbuku') }}" method="GET">
+                    <form class="d-flex gap-2 w-100 w-md-auto" action="{{ route('admin.daftarbuku') }}" method="GET">
                         <select class="form-select form-select-sm" name="category" aria-label="Filter kategori">
                             <option value="">Semua Kategori</option>
                             @foreach ($categoryItems as $category)

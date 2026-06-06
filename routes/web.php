@@ -3,31 +3,47 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\BookController as AdminBookController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\PublisherController;
 use App\Http\Controllers\User\BookController as UserBookController;
 
 Route::get('/', function () {
     return view('admin.layouts.master');
 });
+Route::get('/books', [UserBookController::class, 'index']);
 
-Route::get('/dashboard',function(){
-    return view('admin.pages._dashboard');
-})->name('dashboard.admin');
 
-//Route for table Daftar Buku
-Route::get('/daftarbuku', [AdminBookController::class, 'index'])->name('daftarbuku');
-Route::get('/admin/books/create', [AdminBookController::class, 'create'])->name('admin.books.create');
-Route::post('/admin/books', [AdminBookController::class, 'store'])->name('admin.books.store');
-Route::get('/admin/books/{book}', [AdminBookController::class, 'show'])->name('admin.books.show');
-Route::get('/admin/books/{book}/edit', [AdminBookController::class, 'edit'])->name('admin.books.edit');
-Route::put('/admin/books/{book}', [AdminBookController::class, 'update'])->name('admin.books.update');
-Route::delete('/admin/books/{book}', [AdminBookController::class, 'destroy'])->name('admin.books.destroy');
 
-// Route untuk table Category Book (Menggunakan nama akhir .categories.*)
-Route::get('/admin/category', [AdminCategoryController::class, 'index'])->name('admin.categories.index');
-Route::post('/admin/category', [AdminCategoryController::class, 'store'])->name('admin.category.store');
-Route::put('/admin/category/{category}', [AdminCategoryController::class, 'update'])->name('admin.category.update');
-Route::delete('/admin/category/{category}', [AdminCategoryController::class, 'destroy'])->name('admin.category.destroy');
+
+
+Route::prefix('admin')->name('admin.')->group(function(){
+    Route::get('/dashboard', function () {
+        return view('admin.pages._dashboard');
+    })->name('dashboard');
+
+    Route::get('/daftarbuku', [AdminBookController::class, 'index'])->name('daftarbuku');
+
+
+    //Route for table Daftar Buku
+    Route::get('/books/create', [AdminBookController::class, 'create'])->name('books.create');
+    Route::post('/books', [AdminBookController::class, 'store'])->name('books.store');
+    Route::get('/books/{book}', [AdminBookController::class, 'show'])->name('books.show');
+    Route::get('/books/{book}/edit', [AdminBookController::class, 'edit'])->name('books.edit');
+    Route::put('/books/{book}', [AdminBookController::class, 'update'])->name('books.update');
+    Route::delete('/books/{book}', [AdminBookController::class, 'destroy'])->name('books.destroy');
+
+    // Route untuk table Category Book (Menggunakan nama akhir .categories.*)
+    Route::get('/category', [AdminCategoryController::class, 'index'])->name('categories.index');
+    Route::post('/category', [AdminCategoryController::class, 'store'])->name('category.store');
+    Route::put('/category/{category}', [AdminCategoryController::class, 'update'])->name('category.update');
+    Route::delete('/category/{category}', [AdminCategoryController::class, 'destroy'])->name('category.destroy');
+
+    //Route untuk publisher
+    Route::get('/publishers', [PublisherController::class, 'index'])->name('publishers.index');
+    Route::post('/publishers', [PublisherController::class, 'store'])->name('publishers.store');
+    Route::get('/publishers/{id}/edit', [PublisherController::class, 'edit'])->name('publishers.edit');
+    Route::put('/publishers/{id}', [PublisherController::class, 'update'])->name('publishers.update');
+    Route::delete('/publishers/{id}', [PublisherController::class, 'destroy'])->name('publishers.destroy');
+});
 
 
 //Route for user/frontend
-Route::get('/books', [UserBookController::class, 'index']);

@@ -10,7 +10,7 @@
     </div>
 
     <nav class="sidebar-nav">
-        <a class="nav-link active" href="{{ route('dashboard.admin') }}" aria-current="page">
+        <a class="nav-link active" href="{{ route('admin.dashboard') }}" aria-current="page">
             <span class="nav-icon"><i class="bi bi-speedometer2" aria-hidden="true"></i></span>
             <span class="nav-text">Dashboard</span>
         </a>
@@ -19,15 +19,15 @@
             <span class="nav-icon"><i class="bi bi-journals me-2" aria-hidden="true"></i></span>
             <span class="nav-text">Daftar Kategori</span>
         </a>
-        <a class="nav-link" href="{{ route('daftarbuku') }}">
+        <a class="nav-link" href="{{ route('admin.daftarbuku') }}">
             <span class="nav-icon"><i class="bi bi-book me-2" aria-hidden="true"></i></span>
             <span class="nav-text">Daftar Buku</span>
         </a>
 
 
-        <a class="nav-link" href="modals.html">
+        <a class="nav-link" href="{{ route('admin.publishers.index') }}">
             <span class="nav-icon"><i class="bi bi-window-stack" aria-hidden="true"></i></span>
-            <span class="nav-text">Modals</span>
+            <span class="nav-text">Penerbit</span>
         </a>
         <a class="nav-link" href="settings.html">
             <span class="nav-icon"><i class="bi bi-gear" aria-hidden="true"></i></span>
