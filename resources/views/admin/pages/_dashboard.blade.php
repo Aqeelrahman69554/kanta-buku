@@ -3,122 +3,121 @@
 @section('content')
     <main class="dashboard-content">
         <div class="container-fluid px-3 px-lg-4 py-4">
+
             <div class="page-heading">
                 <div class="page-heading-copy">
                     <span class="page-icon"><i class="bi bi-speedometer2" aria-hidden="true"></i></span>
                     <div>
                         <p class="eyebrow mb-1">Overview</p>
-                        <h1 class="h3 mb-1">Dashboard</h1>
+                        <h1 class="h3 mb-1">Dashboard Admin</h1>
                         <p class="text-muted mb-0">
-                            Monitor performance, sales, users, and
-                            support from one clean workspace.
+                            Ringkasan statistik data master dan katalog koleksi Kanta-buku.
                         </p>
                     </div>
                 </div>
                 <div class="heading-actions">
-                    <button class="btn btn-outline-secondary btn-sm" type="button">
-                        <i class="bi bi-download" aria-hidden="true"></i>
-                        Export</button><button class="btn btn-primary btn-sm" type="button">
+                    <a href="{{ route('admin.books.index') }}" class="btn btn-primary btn-sm">
                         <i class="bi bi-file-earmark-plus" aria-hidden="true"></i>
-                        Create Report
-                    </button>
+                        Tambah Buku Baru
+                    </a>
                 </div>
             </div>
 
             <section class="row g-3 mt-1" aria-label="Dashboard metrics">
-                <div class="col-12 col-sm-6 col-xl-3">
+
+                <div class="col-12 col-sm-6 col-xl-4">
                     <article class="metric-card metric-primary">
                         <div class="metric-top">
-                            <span class="metric-label">Revenue</span>
-                            <span class="metric-icon"><i class="bi bi-currency-dollar" aria-hidden="true"></i></span>
+                            <span class="metric-label">Total Koleksi Buku</span>
+                            <span class="metric-icon"><i class="bi bi-book" aria-hidden="true"></i></span>
                         </div>
-                        <div class="metric-value">$48,240</div>
+                        <div class="metric-value">{{ number_format($totalBooks) }}</div>
                         <div class="metric-meta">
-                            <span class="text-success">+12.5%</span>
-                            <span>from last month</span>
+                            <span>Judul buku terdaftar</span>
                         </div>
                     </article>
                 </div>
 
-                <div class="col-12 col-sm-6 col-xl-3">
+                <div class="col-12 col-sm-6 col-xl-4">
                     <article class="metric-card metric-success">
                         <div class="metric-top">
-                            <span class="metric-label">Orders</span>
-                            <span class="metric-icon"><i class="bi bi-bag-check" aria-hidden="true"></i></span>
+                            <span class="metric-label">Kategori / Subjek</span>
+                            <span class="metric-icon"><i class="bi bi-tags" aria-hidden="true"></i></span>
                         </div>
-                        <div class="metric-value">1,284</div>
+                        <div class="metric-value">{{ number_format($totalCategories) }}</div>
                         <div class="metric-meta">
-                            <span class="text-success">+8.2%</span>
-                            <span>new orders</span>
+                            <span>Klasifikasi topik bervariasi</span>
                         </div>
                     </article>
                 </div>
 
-                <div class="col-12 col-sm-6 col-xl-3">
+                <div class="col-12 col-sm-6 col-xl-4">
                     <article class="metric-card metric-warning">
                         <div class="metric-top">
-                            <span class="metric-label">Customers</span>
-                            <span class="metric-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
+                            <span class="metric-label">Penerbit Buku</span>
+                            <span class="metric-icon"><i class="bi bi-building" aria-hidden="true"></i></span>
                         </div>
-                        <div class="metric-value">8,742</div>
+                        <div class="metric-value">{{ number_format($totalPublishers) }}</div>
                         <div class="metric-meta">
-                            <span class="text-success">+5.1%</span>
-                            <span>active users</span>
+                            <span>Mitra penerbit terintegrasi</span>
                         </div>
                     </article>
                 </div>
 
-                <div class="col-12 col-sm-6 col-xl-3">
-                    <article class="metric-card metric-danger">
-                        <div class="metric-top">
-                            <span class="metric-label">Tickets</span>
-                            <span class="metric-icon"><i class="bi bi-life-preserver" aria-hidden="true"></i></span>
-                        </div>
-                        <div class="metric-value">36</div>
-                        <div class="metric-meta">
-                            <span class="text-danger">3 urgent</span>
-                            <span>need review</span>
-                        </div>
-                    </article>
-                </div>
             </section>
 
             <section class="row g-3 mt-1">
+
                 <div class="col-12 col-xl-8">
-                    <div class="panel">
+                    <div class="panel h-100">
                         <div class="panel-header">
                             <div>
                                 <h2 class="h5 mb-1 section-title">
-                                    <i class="bi bi-graph-up-arrow" aria-hidden="true"></i><span>Sales
-                                        Performance</span>
+                                    <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i><span>Koleksi Buku Terbaru</span>
                                 </h2>
                                 <p class="text-muted mb-0">
-                                    Monthly revenue compared with
-                                    operational targets.
+                                    Daftar judul buku yang baru saja ditambahkan ke dalam sistem OPAC.
                                 </p>
                             </div>
-                            <a class="btn btn-light btn-sm" href="charts.html">View Details</a>
+                            <a class="btn btn-light btn-sm" href="{{ route('admin.books.index') }}">Lihat Semua Buku</a>
                         </div>
 
-                        <div class="chart-bars" aria-label="Sales performance chart">
-                            <div class="chart-column bar-42">
-                                <span></span><small>Jan</small>
-                            </div>
-                            <div class="chart-column bar-58">
-                                <span></span><small>Feb</small>
-                            </div>
-                            <div class="chart-column bar-51">
-                                <span></span><small>Mar</small>
-                            </div>
-                            <div class="chart-column bar-72">
-                                <span></span><small>Apr</small>
-                            </div>
-                            <div class="chart-column bar-66">
-                                <span></span><small>May</small>
-                            </div>
-                            <div class="chart-column bar-83">
-                                <span></span><small>Jun</small>
-                            </div>
+                        <div class="table-responsive px-3 pb-3">
+                            <table class="table align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Judul Buku</th>
+                                        <th scope="col">Kategori</th>
+                                        <th scope="col">Penerbit</th>
+                                        <th scope="col" class="text-end">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($latestBooks as $book)
+                                        <tr>
+                                            <td>
+                                                <div class="fw-semibold text-truncate" style="max-width: 250px;">
+                                                    {{ $book->title }}
+                                                </div>
+                                                <small class="text-muted">ISBN: {{ $book->isbn ?? '-' }}</small>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-secondary">{{ $book->category->name ?? 'Tanpa Kategori' }}</span>
+                                            </td>
+                                            <td>{{ $book->publisher->name ?? 'Tanpa Penerbit' }}</td>
+                                            <td class="text-end">
+                                                <a class="btn btn-light btn-sm" href="{{ route('admin.books.index') }}?search={{ urlencode($book->title) }}">
+                                                    Detail
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="4" class="text-center text-muted py-4">Belum ada koleksi buku yang diinput.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -128,113 +127,33 @@
                         <div class="panel-header">
                             <div>
                                 <h2 class="h5 mb-1 section-title">
-                                    <i class="bi bi-activity" aria-hidden="true"></i><span>Team
-                                        Activity</span>
+                                    <i class="bi bi-activity" aria-hidden="true"></i><span>Status Operasional</span>
                                 </h2>
                                 <p class="text-muted mb-0">
-                                    Recent operational updates.
+                                    Informasi status peladen katalog saat ini.
                                 </p>
                             </div>
                         </div>
 
-                        <div class="activity-list">
-                            <div class="activity-item">
-                                <span class="activity-dot bg-primary"></span>
-                                <div>
-                                    <p class="mb-1 fw-semibold">
-                                        New campaign launched
-                                    </p>
-                                    <p class="text-muted small mb-0">
-                                        Marketing team published the
-                                        May offer.
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="activity-item">
+                        <div class="activity-list p-3">
+                            <div class="activity-item pb-3">
                                 <span class="activity-dot bg-success"></span>
                                 <div>
-                                    <p class="mb-1 fw-semibold">
-                                        Payment batch cleared
-                                    </p>
-                                    <p class="text-muted small mb-0">
-                                        246 invoices were processed
-                                        successfully.
-                                    </p>
+                                    <p class="mb-1 fw-semibold">Sistem OPAC Aktif</p>
+                                    <p class="text-muted small mb-0">Katalog dapat diakses publik dengan aman.</p>
                                 </div>
                             </div>
-                            <div class="activity-item">
-                                <span class="activity-dot bg-warning"></span>
+                            <div class="activity-item pb-3">
+                                <span class="activity-dot bg-primary"></span>
                                 <div>
-                                    <p class="mb-1 fw-semibold">
-                                        Support queue rising
-                                    </p>
-                                    <p class="text-muted small mb-0">
-                                        Average first response time
-                                        is 18 minutes.
-                                    </p>
+                                    <p class="mb-1 fw-semibold">Sinkronisasi Database</p>
+                                    <p class="text-muted small mb-0">Data master terhubung stabil menggunakan MySQL.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
 
-            <section class="panel mt-3">
-                <div class="panel-header">
-                    <div>
-                        <h2 class="h5 mb-1 section-title">
-                            <i class="bi bi-people" aria-hidden="true"></i><span>Recent Users</span>
-                        </h2>
-                        <p class="text-muted mb-0">
-                            Latest account activity across the
-                            workspace.
-                        </p>
-                    </div>
-                    <a class="btn btn-outline-secondary btn-sm" href="users.html">Manage Users</a>
-                </div>
-                <div class="table-responsive">
-                    <table class="table align-middle mb-0">
-                        <thead>
-                            <tr>
-                                <th scope="col">User</th>
-                                <th scope="col">Role</th>
-                                <th scope="col">Team</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Joined</th>
-                                <th scope="col" class="text-end">
-                                    Action
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <img class="avatar-img avatar-sm" src="../assets/images/avatar/avatar-1.jpg"
-                                            alt="Sarah Ahmed" />
-                                        <div>
-                                            <p class="fw-semibold mb-0">
-                                                Sarah Ahmed
-                                            </p>
-                                            <p class="text-muted small mb-0">
-                                                sarah@example.com
-                                            </p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>Admin</td>
-                                <td>Operations</td>
-                                <td>
-                                    <span class="badge text-bg-success">Active</span>
-                                </td>
-                                <td>Jan 12, 2026</td>
-                                <td class="text-end">
-                                    <a class="btn btn-light btn-sm" href="user-details.html">View</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
             </section>
         </div>
     </main>

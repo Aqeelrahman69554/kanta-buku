@@ -19,7 +19,7 @@
             <span class="nav-icon"><i class="bi bi-journals me-2" aria-hidden="true"></i></span>
             <span class="nav-text">Daftar Kategori</span>
         </a>
-        <a class="nav-link" href="{{ route('admin.daftarbuku') }}">
+        <a class="nav-link" href="{{ route('admin.books.index') }}">
             <span class="nav-icon"><i class="bi bi-book me-2" aria-hidden="true"></i></span>
             <span class="nav-text">Daftar Buku</span>
         </a>

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BookController as AdminBookController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\PublisherController;
@@ -16,11 +17,9 @@ Route::get('/books', [UserBookController::class, 'index']);
 
 
 Route::prefix('admin')->name('admin.')->group(function(){
-    Route::get('/dashboard', function () {
-        return view('admin.pages._dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
 
-    Route::get('/daftarbuku', [AdminBookController::class, 'index'])->name('daftarbuku');
+    Route::get('/books', [AdminBookController::class, 'index'])->name('books.index');
 
 
     //Route for table Daftar Buku
