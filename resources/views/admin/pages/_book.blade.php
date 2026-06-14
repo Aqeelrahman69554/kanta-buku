@@ -26,6 +26,12 @@
             font-size: .875rem;
             line-height: 1;
         }
+
+        .category-filter-select.has-value {
+            border-color: var(--bs-primary);
+            color: var(--bs-primary);
+            font-weight: 600;
+        }
     </style>
 
     <main class="dashboard-content">
@@ -65,8 +71,10 @@
                         </h2>
                         <p class="text-muted small mb-0">Gunakan filter kategori atau pencarian untuk menyeleksi buku.</p>
                     </div>
-                    <form class="d-flex gap-2 w-100 w-md-auto" action="{{ route('admin.books.index') }}" method="GET">
-                        <select class="form-select form-select-sm" name="category" aria-label="Filter kategori">
+                    <form id="bookFilterForm" class="d-flex gap-2 w-100 w-md-auto"
+                        action="{{ route('admin.books.index') }}" method="GET">
+                        <select id="categoryFilter" class="form-select form-select-sm category-filter-select @if (request('category')) has-value @endif"
+                            name="category" aria-label="Filter kategori">
                             <option value="">Semua Kategori</option>
                             @foreach ($categoryItems as $category)
                                 <option value="{{ $category->id }}" @selected(request('category') == $category->id)>
@@ -76,8 +84,8 @@
                         </select>
                         <input class="form-control form-control-sm" type="search" name="search"
                             value="{{ request('search') }}" placeholder="Cari buku..." aria-label="Cari buku">
-                        <button class="btn btn-outline-secondary btn-sm" type="submit" title="Filter">
-                            <i class="bi bi-funnel" aria-hidden="true"></i>
+                        <button class="btn btn-outline-secondary btn-sm" type="submit" title="Cari">
+                            <i class="bi bi-search" aria-hidden="true"></i>
                         </button>
                     </form>
                 </div>
@@ -449,7 +457,17 @@
                     setTimeout(function() {
                         successAlert.remove();
                     }, 150);
-                }, 7000); // Pesan sukses akan menghilang otomatis setelah 7 detik
+                }, 7000);
+            }
+
+            const categoryFilter = document.getElementById('categoryFilter');
+            const bookFilterForm = document.getElementById('bookFilterForm');
+
+            if (categoryFilter && bookFilterForm) {
+                categoryFilter.addEventListener('change', function() {
+                    categoryFilter.classList.toggle('has-value', categoryFilter.value !== '');
+                    bookFilterForm.submit();
+                });
             }
         });
     </script>

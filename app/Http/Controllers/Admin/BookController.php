@@ -40,7 +40,8 @@ class BookController extends Controller
                 });
             })
             ->latest()
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         return view('admin.pages._book', compact('books', 'categories', 'publishers'));
     }
