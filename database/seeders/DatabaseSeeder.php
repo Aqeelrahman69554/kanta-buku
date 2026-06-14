@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             CategoriesSeeder::class,
             BooksSeeder::class,
             UsersSeeder::class,
+            ContactSeeder::class,
         ]);
     }
 }
