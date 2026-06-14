@@ -35,9 +35,10 @@
             <span class="nav-icon"><i class="bi bi-window-stack" aria-hidden="true"></i></span>
             <span class="nav-text">Penerbit</span>
         </a>
-        <a class="nav-link" href="settings.html">
+        <a class="nav-link" {{ request()->routeIs('admin.contact.*') ? 'active' : '' }}
+            href="{{ route('admin.contact') }}" @if (request()->routeIs('admin.contact.*')) @endif>
             <span class="nav-icon"><i class="bi bi-gear" aria-hidden="true"></i></span>
-            <span class="nav-text">Settings</span>
+            <span class="nav-text">Contact</span>
         </a>
         <a class="nav-link" href="blank.html">
             <span class="nav-icon"><i class="bi bi-file-earmark" aria-hidden="true"></i></span>

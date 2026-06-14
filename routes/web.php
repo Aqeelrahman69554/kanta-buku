@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BookController as AdminBookController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\PublisherController;
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\User\BookController as UserBookController;
 
 Route::get('/', function () {
@@ -42,6 +43,10 @@ Route::prefix('admin')->name('admin.')->group(function(){
     Route::get('/publishers/{id}/edit', [PublisherController::class, 'edit'])->name('publishers.edit');
     Route::put('/publishers/{id}', [PublisherController::class, 'update'])->name('publishers.update');
     Route::delete('/publishers/{id}', [PublisherController::class, 'destroy'])->name('publishers.destroy');
+
+    Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+    Route::post('/contact/{id}/reply', [ContactController::class, 'reply'])->name('contact.reply');
+    Route::delete('/contact/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
 });
 
 
