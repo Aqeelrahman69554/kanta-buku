@@ -82,7 +82,7 @@
                                 </option>
                             @endforeach
                         </select>
-                        <input class="form-control form-control-sm" type="search" name="search"
+                        <input id="bookSearchInput" class="form-control form-control-sm" type="search" name="search"
                             value="{{ request('search') }}" placeholder="Cari buku..." aria-label="Cari buku">
                         <button class="btn btn-outline-secondary btn-sm" type="submit" title="Cari">
                             <i class="bi bi-search" aria-hidden="true"></i>
@@ -104,85 +104,15 @@
                                 <th style="width: 15%" class="text-center">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @forelse ($bookItems as $book)
-                                <tr>
-                                    <td class="fw-semibold text-center">
-                                        {{ method_exists($bookItems, 'firstItem') ? $bookItems->firstItem() + $loop->index : $loop->iteration }}
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-2">
-                                            <span class="p-2 bg-light rounded text-secondary">
-                                                <i class="bi bi-book-half" aria-hidden="true"></i>
-                                            </span>
-                                            <span class="fw-medium">{{ $book->title }}</span>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="badge bg-primary">{{ $book->category->name ?? '-' }}</span>
-                                    </td>
-                                    <td>{{ $book->author}}</td>
-                                    <td>{{ $book->publisher->name ?? '-' }}</td>
-                                    <td class="text-center">{{ $book->publish_year ?? '-' }}</td>
-                                    <td class="text-center fw-bold">{{ $book->stock ?? '0' }}</td>
-                                    <td class="text-center">
-                                        <div class="btn-group btn-group-sm" role="group" aria-label="Aksi buku">
-                                            <button class="btn btn-outline-secondary book-action" type="button"
-                                                data-bs-toggle="modal" data-bs-target="#viewBookModal{{ $book->id }}"
-                                                title="Detail">
-                                                <i class="bi bi-eye" aria-hidden="true"></i>
-                                            </button>
-                                            <button class="btn btn-outline-warning book-action" type="button"
-                                                data-bs-toggle="modal" data-bs-target="#editBookModal{{ $book->id }}"
-                                                title="Edit">
-                                                <i class="bi bi-pencil-square" aria-hidden="true"></i>
-                                            </button>
-                                            <button class="btn btn-outline-danger book-action" type="button"
-                                                data-bs-toggle="modal" data-bs-target="#deleteBookModal{{ $book->id }}"
-                                                title="Hapus">
-                                                <i class="bi bi-trash" aria-hidden="true"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="8" class="text-center text-muted py-4">Data buku belum tersedia.</td>
-                                </tr>
-                            @endforelse
+                        <tbody id="bookTableBody">
+                            @include('admin.pages._book_rows', ['books' => $bookItems])
                         </tbody>
                     </table>
                 </div>
 
-                @if (method_exists($bookItems, 'lastPage') && $bookItems->lastPage() > 1)
-                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2 mt-3">
-                        <p class="text-muted small mb-0">
-                            Menampilkan {{ $bookItems->firstItem() }} sampai {{ $bookItems->lastItem() }} dari
-                            {{ $bookItems->total() }} buku
-                        </p>
-                        <nav aria-label="Pagination buku">
-                            <ul class="pagination pagination-sm book-pagination mb-0">
-                                <li class="page-item {{ $bookItems->onFirstPage() ? 'disabled' : '' }}">
-                                    <a class="page-link" href="{{ $bookItems->previousPageUrl() ?? '#' }}"
-                                        aria-label="Previous">
-                                        <i class="bi bi-chevron-left" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-                                @foreach ($bookItems->getUrlRange(1, $bookItems->lastPage()) as $page => $url)
-                                    <li class="page-item {{ $bookItems->currentPage() === $page ? 'active' : '' }}">
-                                        <a class="page-link" href="{{ $url }}">{{ $page }}</a>
-                                    </li>
-                                @endforeach
-                                <li class="page-item {{ $bookItems->hasMorePages() ? '' : 'disabled' }}">
-                                    <a class="page-link" href="{{ $bookItems->nextPageUrl() ?? '#' }}"
-                                        aria-label="Next">
-                                        <i class="bi bi-chevron-right" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                @endif
+                <div id="bookPaginationContainer">
+                    @include('admin.pages._book_pagination', ['bookItems' => $bookItems])
+                </div>
             </section>
         </div>
     </main>
@@ -462,11 +392,49 @@
 
             const categoryFilter = document.getElementById('categoryFilter');
             const bookFilterForm = document.getElementById('bookFilterForm');
+            const bookSearchInput = document.getElementById('bookSearchInput');
+            const bookTableBody = document.getElementById('bookTableBody');
+            const bookPaginationContainer = document.getElementById('bookPaginationContainer');
+            let searchTimer;
 
             if (categoryFilter && bookFilterForm) {
                 categoryFilter.addEventListener('change', function() {
                     categoryFilter.classList.toggle('has-value', categoryFilter.value !== '');
                     bookFilterForm.submit();
+                });
+            }
+
+            if (bookSearchInput && bookTableBody && bookPaginationContainer) {
+                bookSearchInput.addEventListener('input', function() {
+                    clearTimeout(searchTimer);
+
+                    searchTimer = setTimeout(function() {
+                        const params = new URLSearchParams();
+                        const keyword = bookSearchInput.value.trim();
+
+                        if (keyword !== '') {
+                            params.set('search', keyword);
+                        }
+
+                        if (categoryFilter && categoryFilter.value !== '') {
+                            params.set('category', categoryFilter.value);
+                        }
+
+                        const queryString = params.toString();
+                        const url = `{{ route('admin.books.index') }}${queryString ? `?${queryString}` : ''}`;
+
+                        fetch(url, {
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            bookTableBody.innerHTML = data.html;
+                            bookPaginationContainer.innerHTML = data.pagination;
+                        })
+                        .catch(error => console.error('Error saat memuat data buku:', error));
+                    }, 300);
                 });
             }
         });

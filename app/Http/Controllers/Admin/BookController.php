@@ -43,6 +43,15 @@ class BookController extends Controller
             ->paginate(10)
             ->withQueryString();
 
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('admin.pages._book_rows', compact('books'))->render(),
+                'pagination' => view('admin.pages._book_pagination', [
+                    'bookItems' => $books,
+                ])->render(),
+            ]);
+        }
+
         return view('admin.pages._book', compact('books', 'categories', 'publishers'));
     }
 
