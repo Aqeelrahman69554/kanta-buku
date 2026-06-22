@@ -46,7 +46,11 @@ Route::prefix('admin')->name('admin.')->group(function(){
 
     Route::get('/contact', [ContactController::class, 'index'])->name('contact');
     Route::post('/contact/{id}/reply', [ContactController::class, 'reply'])->name('contact.reply');
-    Route::delete('/contact/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
+    Route::delete('/contact/{contact}', [ContactController::class, 'destroy'])->name('contact.destroy');
+
+    Route::get('/profile', function(){
+        return view('admin.pages._profile');
+    })->name('profile');
 });
 
 
