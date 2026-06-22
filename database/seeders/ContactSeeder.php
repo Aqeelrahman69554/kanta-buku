@@ -14,10 +14,12 @@ class ContactSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('contacts')->truncate();
+
         $faker = Faker::create('id_ID'); // Menggunakan lokalisasi Indonesia agar nama & teks terasa lokal
 
         // Membuat 10 data contoh untuk tabel kontak
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 14; $i++) {
             DB::table('contacts')->insert([
                 'name' => $faker->name,
                 'email' => $faker->unique()->safeEmail,

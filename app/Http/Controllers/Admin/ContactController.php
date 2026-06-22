@@ -22,9 +22,8 @@ class ContactController extends Controller
         return redirect()->back()->with('success', 'Balasan Berhasil dikirim');
     }
 
-    public function destroy(Contact $id){
-        $message = Contact::findOrFail($id);
-        $message->delete();
+    public function destroy(Contact $contact){
+        $contact->delete();
         return redirect()->back()->with('success','Pesan Berhasil dihapus');
     }
 }
