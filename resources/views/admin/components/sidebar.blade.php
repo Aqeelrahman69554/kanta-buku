@@ -29,6 +29,7 @@
         </a>
 
 
+
         <a class="nav-link {{ request()->routeIs('admin.publishers.*') ? 'active' : '' }}"
             href="{{ route('admin.publishers.index') }}"
             @if (request()->routeIs('admin.publishers.*')) aria-current="page" @endif>
@@ -37,21 +38,12 @@
         </a>
         <a class="nav-link" {{ request()->routeIs('admin.contact.*') ? 'active' : '' }}
             href="{{ route('admin.contact') }}" @if (request()->routeIs('admin.contact.*')) @endif>
-            <span class="nav-icon"><i class="bi bi-gear" aria-hidden="true"></i></span>
+            <span class="nav-icon"><i class="bi bi-envelope-fill" aria-hidden="true"></i></span>
             <span class="nav-text">Contact</span>
-        </a>
-        <a class="nav-link" href="blank.html">
-            <span class="nav-icon"><i class="bi bi-file-earmark" aria-hidden="true"></i></span>
-            <span class="nav-text">Blank Page</span>
         </a>
     </nav>
 
-    <div class="sidebar-user">
-        <img class="avatar-img avatar-md sidebar-user-avatar" src="../assets/images/avatar/avatar.jpg"
-            alt="Admin Hasan" />
-        <strong>Admin Hasan</strong>
-        <small>Active Workspace</small>
-    </div>
+
 
     <div class="sidebar-footer">
         <span class="status-dot"></span>
